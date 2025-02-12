@@ -9,21 +9,15 @@ import shouldRebuildCSS from '../../../utils/should-rebuild-css';
 
 function ComponentCSS( props ) {
 	const deviceType = useSelect( ( select ) => {
-		const { getDeviceType } = select( 'core/editor' ) || {};
-
-		if ( 'function' === typeof getDeviceType ) {
-			return getDeviceType();
+		if ( ! select( 'core/edit-post' ) ) {
+			return 'Desktop';
 		}
 
 		const {
-			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType,
+			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => 'Desktop',
 		} = select( 'core/edit-post' );
 
-		if ( 'function' === typeof experimentalGetPreviewDeviceType ) {
-			return experimentalGetPreviewDeviceType();
-		}
-
-		return '';
+		return experimentalGetPreviewDeviceType();
 	}, [] );
 
 	const {

@@ -18,7 +18,6 @@ export function PatternDetails( {
 	showTitle = true,
 	globalStyleData,
 	closeModal,
-	readOnly,
 } ) {
 	const {
 		setActivePatternId,
@@ -35,7 +34,7 @@ export function PatternDetails( {
 			) }
 
 			<div className="gb-pattern-details__actions">
-				{ ! bulkInsertEnabled && ! readOnly && (
+				{ ! bulkInsertEnabled && (
 					<InsertPattern
 						label={ __( 'Insert', 'generateblocks' ) }
 						onClick={ async( e ) => {

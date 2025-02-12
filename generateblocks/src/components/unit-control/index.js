@@ -4,7 +4,6 @@
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { TextControl, BaseControl } from '@wordpress/components';
 import classnames from 'classnames';
-import { useUpdateEffect } from 'react-use';
 
 /**
  * Internal dependencies
@@ -39,6 +38,7 @@ export default function UnitControl( props ) {
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
+	const isMounted = useRef( false );
 	const wrapperRef = useRef( false );
 	const inputRef = useRef( false );
 
@@ -87,7 +87,13 @@ export default function UnitControl( props ) {
 		setPlaceholders();
 	}, [ value, overrideValue ] );
 
-	useUpdateEffect( () => {
+	useEffect( () => {
+		// Don't run this on first render.
+		if ( ! isMounted.current ) {
+			isMounted.current = true;
+			return;
+		}
+
 		const hasOverride = !! overrideValue && !! disabled;
 
 		const fullValue = startsWithNumber( numericValue )

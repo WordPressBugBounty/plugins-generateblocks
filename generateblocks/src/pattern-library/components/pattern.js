@@ -9,7 +9,6 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 		preview,
 		label,
 		scripts = [],
-		styles = [],
 	} = pattern;
 	const iframeRef = useRef();
 	const elementRef = useRef();
@@ -74,13 +73,6 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 			document.head.appendChild( scriptElement );
 		} );
 
-		styles.forEach( ( style ) => {
-			const styleElement = document.createElement( 'link' );
-			styleElement.rel = 'stylesheet';
-			styleElement.href = style;
-			document.head.appendChild( styleElement );
-		} );
-
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
 		document.head.innerHTML += '<style id="pattern-styles"></style>';
@@ -105,10 +97,10 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 			return;
 		}
 
-		const editorStyles = getComputedStyle( editorStylesWrapper );
+		const styles = getComputedStyle( editorStylesWrapper );
 
-		if ( editorStyles ) {
-			setEditorColors( { background: editorStyles.backgroundColor, text: editorStyles.color } );
+		if ( styles ) {
+			setEditorColors( { background: styles.backgroundColor, text: styles.color } );
 		}
 	}, [ editorStylesWrapper?.style ] );
 
@@ -237,9 +229,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 									// Reset our height when we click anything in our preview.
 									// This accounts for height changes from accordions etc...
 									if ( isActive ) {
-										setTimeout( () => {
-											setHeight( iframeDoc.body.scrollHeight );
-										}, 500 );
+										setHeight( iframeDoc.body.scrollHeight );
 									}
 								} );
 							} }

@@ -12,7 +12,6 @@ export default function PatternList( {
 	closeModal,
 	globalStyleCSS,
 	globalStyleData,
-	readOnly = false,
 } ) {
 	const ref = useRef();
 	const loadMoreRef = useRef();
@@ -184,7 +183,6 @@ export default function PatternList( {
 								bulkInsertEnabled={ bulkInsertEnabled }
 								globalStyleData={ globalStyleData }
 								closeModal={ closeModal }
-								readOnly={ readOnly }
 							/>
 						</li>
 					);

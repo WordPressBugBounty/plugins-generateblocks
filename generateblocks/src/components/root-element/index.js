@@ -2,15 +2,8 @@ import { createElement } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import classnames from 'classnames';
 import { store as blockEditorStore } from '@wordpress/block-editor';
-import { applyFilters } from '@wordpress/hooks';
 
-export default function RootElement( {
-	name,
-	clientId,
-	align,
-	children,
-	isBlockPreview,
-} ) {
+export default function RootElement( { name, clientId, align, children } ) {
 	const {
 		getBlockRootClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
@@ -36,9 +29,9 @@ export default function RootElement( {
 		'data-block': clientId,
 	};
 
-	const parentBlockId = getBlockRootClientId( clientId );
+	const parentBlock = getBlockRootClientId( clientId );
 
-	if ( applyFilters( 'generateblocks.rootElement.disable', parentBlockId || isBlockPreview, { name } ) ) {
+	if ( parentBlock ) {
 		return children;
 	}
 

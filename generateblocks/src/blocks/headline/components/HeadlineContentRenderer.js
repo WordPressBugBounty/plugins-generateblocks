@@ -74,20 +74,6 @@ export default function HeadlineContentRenderer( props ) {
 
 	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: headlineRef } );
 
-	const innerContentProps = {
-		name,
-		tagName,
-		value: content,
-		onChange: ( newContent ) => setAttributes( { content: newContent } ),
-		placeholder: __( 'Headline', 'generateblocks' ),
-	};
-
-	if ( RichText === InnerContent ) {
-		innerContentProps.onReplace = onReplace;
-		innerContentProps.onSplit = onSplit( attributes, clientId );
-		innerContentProps.allowedFormats = textFormats;
-	}
-
 	return (
 		<RootElement name={ name } clientId={ clientId }>
 			<Element tagName={ element } htmlAttrs={ blockProps }>
@@ -99,7 +85,16 @@ export default function HeadlineContentRenderer( props ) {
 					wrapperClassname={ 'gb-headline-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
-					<InnerContent { ...innerContentProps } />
+					<InnerContent
+						name={ name }
+						tagName={ tagName }
+						value={ content }
+						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
+						onSplit={ onSplit( attributes, clientId ) }
+						onReplace={ onReplace }
+						placeholder={ __( 'Headline', 'generateblocks' ) }
+						allowedFormats={ textFormats }
+					/>
 				</IconWrapper>
 			</Element>
 		</RootElement>

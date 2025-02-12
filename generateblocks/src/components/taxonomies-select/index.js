@@ -46,10 +46,10 @@ export default function TaxonomiesSelect( props ) {
 
 	return (
 		<AdvancedSelect
-			id={ 'gblocks-select-terms' }
+			id={ 'gblocks-select-author' }
 			label={ label || __( 'Select terms', 'generateblocks' ) }
 			help={ help }
-			placeholder={ placeholder || __( 'Search terms…', 'generateblocks' ) }
+			placeholder={ placeholder || __( 'Search authors…', 'generateblocks' ) }
 			options={ taxonomiesOptions }
 			isMulti
 			isSearchable

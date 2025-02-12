@@ -12,7 +12,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
 import { getBlockAttributes } from '../../block-context';
 import gridContext from '../../block-context/grid';
-import { transforms } from './transforms';
 
 const attributes = getBlockAttributes(
 	blockAttributes,
@@ -29,7 +28,7 @@ const attributes = getBlockAttributes(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/grid', {
-	apiVersion: 3,
+	apiVersion: 2,
 	title: __( 'Grid', 'generateblocks' ),
 	description: __( 'Create advanced layouts with flexible grids.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
@@ -60,5 +59,4 @@ registerBlockType( 'generateblocks/grid', {
 
 		return __( 'Grid', 'generateblocks' );
 	},
-	transforms,
 } );

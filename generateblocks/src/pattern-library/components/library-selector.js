@@ -1,9 +1,8 @@
 import { Button, ButtonGroup } from '@wordpress/components';
-import { applyFilters } from '@wordpress/hooks';
 import { useLibrary } from './library-provider';
 import AddLibrary from './add-library';
 
-export default function LibrarySelector( { readOnly } ) {
+export default function LibrarySelector() {
 	const {
 		libraries,
 		activeLibrary,
@@ -14,15 +13,10 @@ export default function LibrarySelector( { readOnly } ) {
 		loading,
 	} = useLibrary();
 
-	const visibleLibraries = applyFilters(
-		'generateblocks.patternLibrary.libraries',
-		libraries
-	);
-
 	return (
 		<div className="pattern-library-selector">
 			<ButtonGroup>
-				{ visibleLibraries.map( ( library ) => (
+				{ libraries.map( ( library ) => (
 					<Button
 						key={ library.id }
 						isPressed={ library.id === activeLibrary.id }
@@ -41,9 +35,7 @@ export default function LibrarySelector( { readOnly } ) {
 					</Button>
 				) ) }
 
-				{ ! readOnly && (
-					<AddLibrary />
-				) }
+				<AddLibrary />
 			</ButtonGroup>
 		</div>
 	);

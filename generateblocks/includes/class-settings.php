@@ -40,7 +40,6 @@ class GenerateBlocks_Settings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'generateblocks_settings_area', array( $this, 'add_settings_container' ) );
-		add_action( 'generateblocks_settings_area', array( $this, 'add_blocks_version_settings_container' ), 100 );
 	}
 
 	/**
@@ -57,8 +56,6 @@ class GenerateBlocks_Settings {
 			1
 		);
 
-		remove_submenu_page( 'generateblocks', 'generateblocks' );
-
 		add_action( "admin_print_scripts-$settings", array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -68,7 +65,7 @@ class GenerateBlocks_Settings {
 	public function enqueue_scripts() {
 		$generateblocks_deps = array( 'wp-api', 'wp-i18n', 'wp-components', 'wp-element', 'wp-api-fetch' );
 
-		$assets_file = GENERATEBLOCKS_DIR . 'dist/settings.asset.php';
+		$assets_file = GENERATEBLOCKS_DIR . 'dist/dashboard.asset.php';
 		$compiled_assets = file_exists( $assets_file )
 			? require $assets_file
 			: false;
@@ -79,12 +76,12 @@ class GenerateBlocks_Settings {
 			? $compiled_assets
 			: [
 				'dependencies' => $generateblocks_deps,
-				'version' => filemtime( GENERATEBLOCKS_DIR . 'dist/settings.js' ),
+				'version' => filemtime( GENERATEBLOCKS_DIR . 'dist/dashboard.js' ),
 			];
 
 		wp_enqueue_script(
 			'generateblocks-settings',
-			GENERATEBLOCKS_DIR_URL . 'dist/settings.js',
+			GENERATEBLOCKS_DIR_URL . 'dist/dashboard.js',
 			$assets['dependencies'],
 			$assets['version'],
 			true
@@ -110,7 +107,6 @@ class GenerateBlocks_Settings {
 						wp_customize_url()
 					) :
 					false,
-				'useV1Blocks' => generateblocks_use_v1_blocks(),
 			)
 		);
 	}
@@ -122,15 +118,6 @@ class GenerateBlocks_Settings {
 	 */
 	public function add_settings_container() {
 		echo '<div id="gblocks-block-default-settings"></div>';
-	}
-
-	/**
-	 * Add blocks version settings container.
-	 *
-	 * @since 2.0.0
-	 */
-	public function add_blocks_version_settings_container() {
-		echo '<div id="gblocks-blocks-version-settings"></div>';
 	}
 
 	/**
