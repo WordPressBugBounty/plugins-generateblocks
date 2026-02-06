@@ -2137,7 +2137,7 @@ function generateblocks_get_escaped_html_attribute( $name, $value ) {
 
 	return $is_url_field
 		? esc_url( $value )
-		: esc_attr( $value );
+		: $value; // set_attribute() handles escaping as of WP 6.9.
 }
 
 /**
@@ -2222,4 +2222,33 @@ function generateblocks_get_v1_block_names() {
 		'generateblocks/image',
 		'generateblocks/query-loop',
 	];
+}
+
+/**
+ * Get ACF option field keys.
+ *
+ * @since 2.1.2
+ * @return array The ACF option field keys.
+ */
+function generateblocks_get_acf_option_field_keys() {
+	if ( ! function_exists( 'acf_get_option_meta' ) ) {
+		return [];
+	}
+
+	$acf_options = acf_get_option_meta( 'options' );
+
+	if ( ! is_array( $acf_options ) || empty( $acf_options ) ) {
+		return [];
+	}
+
+	$options = array_filter(
+		$acf_options,
+		function( $key ) {
+			// Only allow string keys that don't start with underscore.
+			return is_string( $key ) && strpos( $key, '_' ) !== 0;
+		},
+		ARRAY_FILTER_USE_KEY
+	);
+
+	return array_keys( $options );
 }
